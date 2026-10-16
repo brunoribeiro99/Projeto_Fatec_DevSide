@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalPerguntas = 10;
 
     /*
-     * 0 = Dados pessoais
-     * 1 = Pergunta 1
-     * ...
-     * 10 = Pergunta 10
-     */
+       0 = Dados pessoais
+       1 = Pergunta 1
+       ...
+       10 = Pergunta 10
+    */
     let etapaAtual = 0;
 
 
@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
        ELEMENTOS
        ===================================================== */
 
-    const dadosPessoais =
-        document.getElementById("perguntaDados");
+    const dadosPessoais = document.getElementById("perguntaDados");
 
 
     /* =====================================================
@@ -30,15 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function mostrarEtapa(etapa) {
 
         /* Esconde ou mostra os dados pessoais */
-
         if (dadosPessoais) {
             dadosPessoais.style.display =
-                etapa === 0 ? "block" : "none";
+                (etapa === 0) ? "block" : "none";
         }
 
-
-        /* Esconde ou mostra as perguntas */
-
+        /* Esconde ou mostra as perguntas de 1 a 10 */
         for (let i = 1; i <= totalPerguntas; i++) {
 
             const pergunta =
@@ -46,14 +42,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (pergunta) {
                 pergunta.style.display =
-                    etapa === i ? "block" : "none";
+                    (etapa === i) ? "block" : "none";
             }
         }
-
 
         etapaAtual = etapa;
 
         atualizarBotoes();
+
+        /* Rola a página suavemente para o topo */
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     }
 
 
@@ -64,7 +65,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function dadosPreenchidos() {
 
         const nome = document.getElementById("nome");
+        const nickname = document.getElementById("nickname");
         const celular = document.getElementById("celular");
+        const email = document.getElementById("email");
         const idade = document.getElementById("idade");
 
         const genero =
@@ -72,16 +75,40 @@ document.addEventListener("DOMContentLoaded", function () {
                 'input[name="genero"]:checked'
             );
 
-        if (!nome || !celular || !idade || !genero) {
+        const tomPele =
+            document.querySelector(
+                'input[name="tomPele"]:checked'
+            );
+
+
+        if (
+            !nome ||
+            !celular ||
+            !email ||
+            !idade ||
+            !genero ||
+            !tomPele
+        ) {
             return false;
         }
+
 
         const celularNumeros =
             celular.value.replace(/\D/g, "");
 
+
+        const emailValido =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                email.value.trim()
+            );
+
+
         return (
-            nome.value.trim().length >= 8 &&
-            celularNumeros.length === 11 &&
+            nome.value.trim().length >= 3 &&
+            (!nickname ||
+                nickname.value.trim().length > 0) &&
+            celularNumeros.length >= 10 &&
+            emailValido &&
             idade.value.trim() !== ""
         );
     }
@@ -96,14 +123,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const pergunta =
             document.getElementById(`pergunta${numero}`);
 
+
         if (!pergunta) {
             return false;
         }
+
 
         const respostas =
             pergunta.querySelectorAll(
                 'input[type="radio"], input[type="checkbox"]'
             );
+
 
         return Array.from(respostas).some(
             resposta => resposta.checked
@@ -131,43 +161,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function atualizarBotoes() {
 
-        /* Dados pessoais */
-
+        /* Dados pessoais (Etapa 0) */
         if (etapaAtual === 0) {
-
-            const voltar =
-                document.getElementById("btnVoltarDados");
 
             const proxima =
                 document.getElementById("btnProximaDados");
 
-            if (voltar) {
-                voltar.disabled = true;
-            }
 
             if (proxima) {
-                proxima.disabled = !dadosPreenchidos();
+
+                /* CORRIGIDO */
+                proxima.disabled =
+                    !dadosPreenchidos();
             }
+
 
             return;
         }
 
 
-        /* Perguntas 1 a 10 */
+        /* Perguntas 1 a 9 */
+        if (etapaAtual < totalPerguntas) {
 
-        const voltar =
-            document.getElementById(`btnVoltar${etapaAtual}`);
+            const proxima =
+                document.getElementById(
+                    `btnProxima${etapaAtual}`
+                );
 
-        const proxima =
-            document.getElementById(`btnProxima${etapaAtual}`);
 
-        if (voltar) {
-            voltar.disabled = false;
+            if (proxima) {
+
+                /* CORRIGIDO */
+                proxima.disabled =
+                    !perguntaRespondida(etapaAtual);
+            }
         }
 
-        if (proxima) {
-            proxima.disabled =
-                !perguntaRespondida(etapaAtual);
+
+        /* Pergunta 10 */
+        else if (etapaAtual === totalPerguntas) {
+
+            const btnVerPontuacao =
+                document.getElementById(
+                    "btnVerPontuacao"
+                );
+
+
+            if (btnVerPontuacao) {
+
+                btnVerPontuacao.disabled =
+                    !perguntaRespondida(totalPerguntas);
+
+
+                btnVerPontuacao.style.opacity =
+                    perguntaRespondida(totalPerguntas)
+                        ? "1"
+                        : "0.5";
+            }
         }
     }
 
@@ -178,25 +228,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function proximaEtapa() {
 
-        /* Não deixa avançar sem responder */
-
+        /* CORRIGIDO */
         if (!etapaRespondida()) {
             return;
         }
 
-        /* Se chegou na pergunta 10, finaliza o quiz */
 
         if (etapaAtual === totalPerguntas) {
+
             finalizarQuiz();
+
             return;
         }
+
 
         mostrarEtapa(etapaAtual + 1);
     }
 
 
     /* =====================================================
-       VOLTAR
+       VOLTAR ETAPA
        ===================================================== */
 
     function voltarEtapa() {
@@ -204,6 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (etapaAtual === 0) {
             return;
         }
+
 
         mostrarEtapa(etapaAtual - 1);
     }
@@ -215,110 +267,217 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function finalizarQuiz() {
 
-        alert("Quiz concluído! 🎮");
+        alert("Quiz concluído com sucesso! 🎮");
 
         /*
-         * Depois vamos substituir isso pelo
-         * cálculo do resultado do PixelU.
-         */
+           Aqui depois vamos colocar a lógica
+           para gerar o avatar e mostrar o resultado.
+        */
     }
 
 
     /* =====================================================
-       EVENTOS DOS DADOS PESSOAIS
+       REGISTRO DE EVENTOS
        ===================================================== */
 
     const nome =
         document.getElementById("nome");
 
+    const nickname =
+        document.getElementById("nickname");
+
     const celular =
         document.getElementById("celular");
 
+    const email =
+        document.getElementById("email");
+
     const idade =
         document.getElementById("idade");
+
 
     const generos =
         document.querySelectorAll(
             'input[name="genero"]'
         );
 
+
+    const tonsPele =
+        document.querySelectorAll(
+            'input[name="tomPele"]'
+        );
+
+
     if (nome) {
-        nome.addEventListener("input", atualizarBotoes);
+        nome.addEventListener(
+            "input",
+            atualizarBotoes
+        );
     }
+
+
+    if (nickname) {
+        nickname.addEventListener(
+            "input",
+            atualizarBotoes
+        );
+    }
+
 
     if (celular) {
-        celular.addEventListener("input", atualizarBotoes);
+        celular.addEventListener(
+            "input",
+            atualizarBotoes
+        );
     }
+
+
+    if (email) {
+        email.addEventListener(
+            "input",
+            atualizarBotoes
+        );
+    }
+
 
     if (idade) {
-        idade.addEventListener("input", atualizarBotoes);
+        idade.addEventListener(
+            "input",
+            atualizarBotoes
+        );
     }
 
-    generos.forEach(function (genero) {
-        genero.addEventListener("change", atualizarBotoes);
+
+    generos.forEach(genero => {
+
+        genero.addEventListener(
+            "change",
+            atualizarBotoes
+        );
+
+    });
+
+
+    tonsPele.forEach(tom => {
+
+        tom.addEventListener(
+            "change",
+            atualizarBotoes
+        );
+
     });
 
 
     /* =====================================================
-       BOTÃO PRÓXIMO DOS DADOS
+       BOTÃO PRÓXIMO DOS DADOS PESSOAIS
        ===================================================== */
 
     const btnProximaDados =
-        document.getElementById("btnProximaDados");
+        document.getElementById(
+            "btnProximaDados"
+        );
+
 
     if (btnProximaDados) {
-        btnProximaDados.addEventListener("click", proximaEtapa);
+
+        btnProximaDados.addEventListener(
+            "click",
+            proximaEtapa
+        );
     }
 
 
     /* =====================================================
-       BOTÕES DAS PERGUNTAS
+       BOTÕES DE AVANÇAR E VOLTAR
        ===================================================== */
 
     for (let i = 1; i <= totalPerguntas; i++) {
 
         const btnProxima =
-            document.getElementById(`btnProxima${i}`);
-
-        const btnVoltar =
-            document.getElementById(`btnVoltar${i}`);
-
-        if (btnProxima) {
-            btnProxima.addEventListener("click", proximaEtapa);
-        }
-
-        if (btnVoltar) {
-            btnVoltar.addEventListener("click", voltarEtapa);
-        }
-    }
-
-
-    /* =====================================================
-       DETECTAR RESPOSTAS DAS PERGUNTAS
-       ===================================================== */
-
-    for (let i = 1; i <= totalPerguntas; i++) {
-
-        const pergunta =
-            document.getElementById(`pergunta${i}`);
-
-        if (!pergunta) {
-            continue;
-        }
-
-        const respostas =
-            pergunta.querySelectorAll(
-                'input[type="radio"], input[type="checkbox"]'
+            document.getElementById(
+                `btnProxima${i}`
             );
 
-        respostas.forEach(function (resposta) {
-            resposta.addEventListener("change", atualizarBotoes);
-        });
+
+        const btnVoltar =
+            document.getElementById(
+                `btnVoltar${i}`
+            );
+
+
+        if (btnProxima) {
+
+            btnProxima.addEventListener(
+                "click",
+                proximaEtapa
+            );
+        }
+
+
+        if (btnVoltar) {
+
+            btnVoltar.addEventListener(
+                "click",
+                voltarEtapa
+            );
+        }
+
+
+        /* Detectar mudanças nas opções */
+
+        const pergunta =
+            document.getElementById(
+                `pergunta${i}`
+            );
+
+
+        if (pergunta) {
+
+            const respostas =
+                pergunta.querySelectorAll(
+                    'input[type="radio"], input[type="checkbox"]'
+                );
+
+
+            respostas.forEach(resposta => {
+
+                resposta.addEventListener(
+                    "change",
+                    atualizarBotoes
+                );
+
+            });
+        }
     }
 
 
     /* =====================================================
-       INICIAR
+       BOTÃO FINAL — VER PONTUAÇÃO
+       ===================================================== */
+
+    const btnVerPontuacao =
+        document.getElementById(
+            "btnVerPontuacao"
+        );
+
+
+    if (btnVerPontuacao) {
+
+        btnVerPontuacao.addEventListener(
+            "click",
+            function () {
+
+                if (etapaRespondida()) {
+                    finalizarQuiz();
+                }
+
+            }
+        );
+    }
+
+
+    /* =====================================================
+       INICIALIZAÇÃO DO APP
        ===================================================== */
 
     mostrarEtapa(0);

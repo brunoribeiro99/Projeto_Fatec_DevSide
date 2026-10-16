@@ -30,113 +30,103 @@
 
         </div>
 
+<!-- DADOS PESSOAIS COMPACTOS -->
+<!-- ETAPA 0: DADOS PESSOAIS -->
+<div id="perguntaDados" class="quiz-question">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Seus Dados de Aventureiro</h2>
 
-        <!-- DADOS PESSOAIS -->
+            <div class="row g-3" id="pessoais">
+                
+                <!-- Nome Completo -->
+                <div class="col-12">
+                    <label for="nome" class="form-label">Nome Completo</label>
+                    <input type="text" class="form-control" id="nome" placeholder="Digite seu nome completo" required>
+                </div>
 
-        <section class="quiz-section quiz-question" id="perguntaDados">
+                <!-- Apelido / Nickname -->
+                <div class="col-12">
+                    <label for="nickname" class="form-label">Apelido / Nickname</label>
+                    <input type="text" class="form-control" id="nickname" placeholder="Como quer ser chamado no jogo?" required>
+                </div>
 
-    <h2>Antes de começar...</h2>
+                <!-- Email -->
+                <div class="col-12">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" placeholder="seuemail@exemplo.com" required>
+                </div>
 
-    <!-- NOME COMPLETO -->
-    <div class="mb-4">
-        <label for="nome" class="form-label">
-            Qual é o seu nome completo?
-        </label>
-        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome completo">
-    </div>
+                <!-- Idade + Celular -->
+                <div class="col-5 col-md-4">
+                    <label for="idade" class="form-label">Idade</label>
+                    <input type="number" class="form-control" id="idade" placeholder="Ex: 17" min="10" max="99" required>
+                </div>
 
-    <!-- APELIDO -->
-    <div class="mb-4">
-        <label for="apelido" class="form-label">
-            Como podemos chamar você?
-        </label>
-        <input type="text" class="form-control" id="apelido" name="apelido" placeholder="Digite seu apelido">
-    </div>
-
-    <!-- CELULAR -->
-    <div class="mb-4">
-        <label for="celular" class="form-label">
-            Qual é o seu celular?
-        </label>
-        <input type="tel" class="form-control" id="celular" name="celular" inputmode="tel"
-            placeholder="(17) 99999-9999">
-    </div>
-
-    <!-- IDADE -->
-    <div class="mb-4">
-        <label for="idade" class="form-label">
-            Qual é a sua idade?
-        </label>
-        <input type="number" class="form-control" id="idade" name="idade" min="10" max="100"
-            placeholder="Digite sua idade">
-    </div>
-
-    <!-- GÊNERO -->
-    <div class="mb-4">
-        <label class="form-label">
-            Como você se identifica?
-        </label>
-
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="genero" id="generoMasculino" value="masculino">
-            <label class="form-check-label" for="generoMasculino">
-                Masculino
-            </label>
-        </div>
-
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="genero" id="generoFeminino" value="feminino">
-            <label class="form-check-label" for="generoFeminino">
-                Feminino
-            </label>
-        </div>
-    </div>
-
-            <!-- TOM DE PELE -->
-<div class="mb-4">
-    <label class="form-label tom-pele-titulo">
-    Escolha um tom de pele:
-</label>
-
-    <div class="tom-pele-opcoes">
-
-        <label class="tom-pele-option">
-            <input type="radio" name="tomPele" value="clara">
-            <span class="tom-pele-cor pele-clara"></span>
-        </label>
-
-        <label class="tom-pele-option">
-            <input type="radio" name="tomPele" value="escura">
-            <span class="tom-pele-cor pele-escura"></span>
-        </label>
-
-    </div>
-</div>
-
-
-            <!-- NAVEGAÇÃO DOS DADOS -->
-
-            <div class="quiz-nav">
-
-                <button type="button" class="quiz-arrow quiz-back" id="btnVoltarDados" aria-label="Voltar" disabled>
-
-                    ←
-
-                </button>
-
-
-                <button type="button" class="quiz-arrow quiz-next" id="btnProximaDados" aria-label="Próxima pergunta"
-                    disabled>
-
-                    →
-
-                </button>
+                <div class="col-7 col-md-8">
+                    <label for="celular" class="form-label">Celular / WhatsApp</label>
+                    <input type="tel" class="form-control" id="celular" placeholder="(17) 99999-9999" maxlength="15" required>
+                </div>
 
             </div>
 
-        </section>
+            <!-- GÊNERO / IDENTIDADE -->
+            <div class="mt-4 mb-4">
+                <label class="form-label text-center d-block mb-3">Como você se identifica?</label>
+                <div class="row g-2 justify-content-center">
+                    <div class="col-4 col-md-3">
+                        <input type="radio" class="btn-check" name="genero" id="generoMasculino" value="masculino" autocomplete="off">
+                        <label class="btn btn-genero-masculino w-100 py-3 text-center" for="generoMasculino">
+                            <span class="icone-genero">♂</span><br>Masculino
+                        </label>
+                    </div>
+                    <div class="col-4 col-md-3">
+                        <input type="radio" class="btn-check" name="genero" id="generoFeminino" value="feminino" autocomplete="off">
+                        <label class="btn btn-genero-feminino w-100 py-3 text-center" for="generoFeminino">
+                            <span class="icone-genero">♀</span><br>Feminino
+                        </label>
+                    </div>
+                    <div class="col-4 col-md-3">
+                        <input type="radio" class="btn-check" name="genero" id="generoTrans" value="trans" autocomplete="off">
+                        <label class="btn btn-genero-trans w-100 py-3 text-center" for="generoTrans">
+                            <span class="icone-genero">⚧</span><br>Trans / Outros
+                        </label>
+                    </div>
+                </div>
+            </div>
 
+            <!-- TOM DE PELE -->
+            <div class="mt-4 mb-2">
+                <label class="form-label text-center d-block mb-2">Tom de Pele do Avatar</label>
+                <div class="tom-pele-container">
+                    <label class="tom-pele-card">
+                        <input type="radio" name="tomPele" value="clara" required>
+                        <div class="tom-pele-box skin-clara">
+                            <span class="tom-pele-brilho"></span>
+                        </div>
+                        <span class="tom-pele-nome">Pele Clara</span>
+                    </label>
 
+                    <label class="tom-pele-card">
+                        <input type="radio" name="tomPele" value="escura">
+                        <div class="tom-pele-box skin-escura">
+                            <span class="tom-pele-brilho"></span>
+                        </div>
+                        <span class="tom-pele-nome">Pele Escura</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- NAVEGAÇÃO -->
+            <div class="quiz-nav justify-content-center">
+                <button type="button" class="quiz-arrow quiz-next" id="btnProximaDados" aria-label="Próxima pergunta" disabled>
+                    →
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
         <!-- QUIZ-->
 
         <section

@@ -1,4 +1,3 @@
-
 :root {
     --bg-deep: #090c16;
     --bg-nebula-1: #1a1140;
@@ -159,8 +158,6 @@ main > .text-center:first-child .lead {
     overflow: hidden;
 }
 
-/* detalhe dourado no topo */
-
 .card::before {
     content: "";
     position: absolute;
@@ -179,8 +176,6 @@ main > .text-center:first-child .lead {
     box-shadow:
         0 0 12px rgba(232,185,75,.35);
 }
-
-/* pequeno detalhe no canto */
 
 .card::after {
     content: "";
@@ -262,13 +257,9 @@ main > .text-center:first-child .lead {
         transform .2s ease;
 }
 
-/* placeholder */
-
 .form-control::placeholder {
     color: #626b8f;
 }
-
-/* foco */
 
 .form-control:focus,
 .form-select:focus {
@@ -281,8 +272,6 @@ main > .text-center:first-child .lead {
 
     outline: none;
 }
-
-/* select */
 
 .form-select {
     cursor: pointer;
@@ -297,7 +286,164 @@ main > .text-center:first-child .lead {
 }
 
 /* =========================================================
-   PERGUNTAS
+   CUSTOMIZAÇÃO DE GÊNERO / IDENTIDADE (SÍMBOLOS)
+   ========================================================= */
+
+.btn-genero-masculino,
+.btn-genero-feminino,
+.btn-genero-trans {
+    border: 2px solid var(--panel-line);
+    background: linear-gradient(145deg, #151b30, #101527);
+    color: var(--ink-dim);
+    transition: all 0.2s ease-in-out;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.icone-genero {
+    font-size: 2.2rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 6px;
+    line-height: 1;
+}
+
+.btn-genero-masculino:hover,
+.btn-genero-feminino:hover,
+.btn-genero-trans:hover {
+    transform: translateY(-2px);
+    border-color: var(--gold);
+    box-shadow: 0 8px 22px rgba(0,0,0,.25);
+    color: var(--ink);
+}
+
+.btn-genero-masculino {
+    border-color: #0353a4;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #38bdf8;
+}
+input[type="radio"]#generoMasculino:checked + .btn-genero-masculino {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: #fff !important;
+    border: 3px solid #38bdf8 !important;
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.6);
+}
+
+.btn-genero-feminino {
+    border-color: #9d174d;
+    background: linear-gradient(135deg, #0f172a 0%, #831843 100%);
+    color: #f472b6;
+}
+input[type="radio"]#generoFeminino:checked + .btn-genero-feminino {
+    background: linear-gradient(135deg, #db2777 0%, #be185d 100%) !important;
+    color: #fff !important;
+    border: 3px solid #f472b6 !important;
+    box-shadow: 0 0 18px rgba(244, 114, 182, 0.6);
+}
+
+.btn-genero-trans {
+    border-color: #581c87;
+    background: linear-gradient(135deg, #0f172a 0%, #581c87 100%);
+    color: #c084fc;
+}
+input[type="radio"]#generoTrans:checked + .btn-genero-trans {
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%) !important;
+    color: #fff !important;
+    border: 3px solid #c084fc !important;
+    box-shadow: 0 0 18px rgba(192, 132, 252, 0.6);
+}
+
+/* =========================================================
+   SELEÇÃO DE TOM DE PELE
+   ========================================================= */
+
+.tom-pele-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.tom-pele-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    gap: 8px;
+    transition: transform 0.2s ease;
+}
+
+.tom-pele-card input[type="radio"] {
+    display: none;
+}
+
+.tom-pele-box {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    border: 2px solid var(--panel-line);
+    background-size: cover;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+.skin-clara {
+    background: linear-gradient(135deg, #ffd3b6 0%, #f1c7a5 100%);
+}
+
+.skin-escura {
+    background: linear-gradient(135deg, #8d5b42 0%, #523121 100%);
+}
+
+.tom-pele-brilho {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.tom-pele-nome {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink-dim);
+    transition: color 0.2s ease;
+}
+
+.tom-pele-card:hover {
+    transform: translateY(-3px);
+}
+
+.tom-pele-card:hover .tom-pele-box {
+    border-color: var(--gold-light);
+    box-shadow: 0 6px 20px rgba(232, 185, 75, 0.25);
+}
+
+.tom-pele-card:hover .tom-pele-nome {
+    color: var(--ink);
+}
+
+.tom-pele-card input[type="radio"]:checked + .tom-pele-box {
+    border: 3px solid var(--gold) !important;
+    transform: scale(1.12);
+    box-shadow: 
+        0 0 20px rgba(232, 185, 75, 0.6),
+        inset 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.tom-pele-card input[type="radio"]:checked ~ .tom-pele-nome {
+    color: var(--gold-light);
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(232, 185, 75, 0.4);
+}
+
+/* =========================================================
+   PERGUNTAS E ALTERNATIVAS
    ========================================================= */
 
 #personalidade > .card-body > div[id^="q"] {
@@ -306,14 +452,10 @@ main > .text-center:first-child .lead {
     border-bottom: 1px solid rgba(42,52,87,.65);
 }
 
-/* remove borda da última */
-
 #personalidade > .card-body > div[id^="q"]:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
-
-/* número/pergunta */
 
 #personalidade > .card-body > div[id^="q"] > .form-label {
     margin-bottom: 17px;
@@ -321,67 +463,15 @@ main > .text-center:first-child .lead {
     line-height: 1.55;
 }
 
-/* =========================================================
-   SISTEMA DE COLUNAS DO BOOTSTRAP
-   ========================================================= */
-
 #personalidade .row {
     --bs-gutter-x: 14px;
     --bs-gutter-y: 14px;
     margin-top: 0;
 }
 
-.tom-pele-titulo {
-    display: block;
-    text-align: center;
-}
-
-.tom-pele-opcoes {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
-}
-
-.tom-pele-option {
-    cursor: pointer;
-}
-
-.tom-pele-option input {
-    display: none;
-}
-
-.tom-pele-cor {
-    display: block;
-    width: 55px;
-    height: 55px;
-    border-radius: 8px;
-    border: 2px solid transparent;
-}
-
-.pele-clara {
-    background-color: #F1C7A5;
-}
-
-.pele-escura {
-    background-color: #6B3F2A;
-}
-
-.tom-pele-option input:checked + .tom-pele-cor {
-    border: 3px solid #F58427;
-    transform: scale(1.08);
-}
-/* =========================================================
-   COLUNAS DAS ALTERNATIVAS
-   ========================================================= */
-
 #personalidade .row > [class*="col-"] {
     display: flex;
 }
-
-/* =========================================================
-   ALTERNATIVA — CARD
-   ========================================================= */
 
 .form-check {
     position: relative;
@@ -416,8 +506,6 @@ main > .text-center:first-child .lead {
         box-shadow .18s ease;
 }
 
-/* barra lateral */
-
 .form-check::before {
     content: "";
     position: absolute;
@@ -425,526 +513,162 @@ main > .text-center:first-child .lead {
     bottom: 0;
     left: 0;
     width: 2px;
-
     background: transparent;
-
-    transition:
-        background .18s ease,
-        box-shadow .18s ease;
+    transition: background .18s ease, box-shadow .18s ease;
 }
-
-/* brilho */
-
-.form-check::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.035),
-            transparent
-        );
-
-    transform: skewX(-20deg);
-    transition: left .45s ease;
-
-    pointer-events: none;
-}
-
-/* =========================================================
-   HOVER
-   ========================================================= */
 
 .form-check:hover {
     color: var(--ink);
-
     background:
         linear-gradient(
             145deg,
             #1b223b,
             #141a30
         );
-
     border-color: rgba(232,185,75,.65);
-
     transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 22px rgba(0,0,0,.25),
-        0 0 15px rgba(232,185,75,.05);
+    box-shadow: 0 8px 22px rgba(0,0,0,.25), 0 0 15px rgba(232,185,75,.05);
 }
 
 .form-check:hover::before {
     background: var(--gold);
-
-    box-shadow:
-        0 0 10px rgba(232,185,75,.5);
+    box-shadow: 0 0 10px rgba(232,185,75,.5);
 }
-
-.form-check:hover::after {
-    left: 130%;
-}
-
-/* =========================================================
-   INPUT BOOTSTRAP
-   ========================================================= */
 
 .form-check-input {
     position: relative;
     flex: none;
-
     width: 20px !important;
     height: 20px !important;
-
     margin: 0 13px 0 16px !important;
-
     background-color: #0d1323 !important;
     border: 1px solid #465170 !important;
-
     box-shadow: none !important;
-
     cursor: pointer;
     z-index: 2;
 }
-
-/* rádio */
 
 .form-check-input[type="radio"] {
     border-radius: 50%;
 }
 
-/* checkbox */
-
 .form-check-input[type="checkbox"] {
     border-radius: 3px;
 }
 
-/* =========================================================
-   INPUT HOVER
-   ========================================================= */
-
-.form-check:hover .form-check-input {
-    border-color: var(--gold) !important;
-}
-
-/* =========================================================
-   INPUT SELECIONADO
-   ========================================================= */
-
 .form-check-input:checked {
     background-color: var(--gold) !important;
     border-color: var(--gold) !important;
-
-    box-shadow:
-        0 0 10px rgba(232,185,75,.22) !important;
+    box-shadow: 0 0 10px rgba(232,185,75,.22) !important;
 }
-
-/* =========================================================
-   CARD SELECIONADO
-   ========================================================= */
 
 .form-check:has(.form-check-input:checked) {
     color: #fff;
-
     background:
         linear-gradient(
             145deg,
             rgba(124,77,255,.18),
             rgba(20,27,48,1)
         );
-
-    border-color: var(--gold);
-
+    border: 2px solid var(--gold);
     box-shadow:
         inset 0 0 25px rgba(232,185,75,.045),
         0 0 18px rgba(232,185,75,.08);
 }
 
-.form-check:has(.form-check-input:checked)::before {
-    background: var(--gold);
-
-    box-shadow:
-        0 0 12px rgba(232,185,75,.6);
-}
-
-/* =========================================================
-   TEXTO DAS ALTERNATIVAS
-   ========================================================= */
-
 .form-check-label {
     flex: 1;
-
     display: flex;
     align-items: center;
-
     min-height: 68px;
-
     padding: 13px 15px 13px 0;
-
     color: inherit;
     font-size: .91rem;
     font-weight: 500;
     line-height: 1.45;
-
     cursor: pointer;
     z-index: 2;
 }
 
 /* =========================================================
-   ALTERNATIVAS CURTAS
-   ========================================================= */
-
-#q1 .form-check,
-#q5 .form-check,
-#q8 .form-check {
-    min-height: 62px;
-}
-
-#q1 .form-check-label,
-#q5 .form-check-label,
-#q8 .form-check-label {
-    min-height: 62px;
-}
-
-/* =========================================================
-   PERGUNTAS COM 3 ALTERNATIVAS
-   ========================================================= */
-
-#q4 .form-check {
-    min-height: 72px;
-}
-
-/* =========================================================
-   PERGUNTAS COM 6 ALTERNATIVAS
-   ========================================================= */
-
-#q9 .form-check {
-    min-height: 72px;
-}
-
-/* =========================================================
-   PERGUNTAS COM TEXTOS GRANDES
-   ========================================================= */
-
-#q3 .form-check,
-#q6 .form-check,
-#q7 .form-check,
-#q11 .form-check {
-    min-height: 76px;
-}
-
-/* =========================================================
-   ESPAÇAMENTO ENTRE PERGUNTAS
-   ========================================================= */
-
-#personalidade .mb-4 {
-    margin-bottom: 0 !important;
-}
-
-/* =========================================================
-   BOTÕES
+   BOTÕES GERAIS
    ========================================================= */
 
 .btn {
     position: relative;
-
     min-height: 50px;
-
     padding: 13px 26px !important;
-
     color: #1a1206 !important;
     font-size: .95rem !important;
     font-weight: 700 !important;
-
     background:
         linear-gradient(
             135deg,
             var(--gold-light),
             var(--gold)
         ) !important;
-
     border: 1px solid var(--gold) !important;
     border-radius: 4px !important;
-
-    box-shadow:
-        0 5px 18px rgba(0,0,0,.2);
-
-    transition:
-        transform .15s ease,
-        box-shadow .15s ease,
-        filter .15s ease;
+    box-shadow: 0 5px 18px rgba(0,0,0,.2);
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
 }
-
-/* canto cortado */
-
-.btn::after {
-    content: "";
-    position: absolute;
-
-    top: 0;
-    right: 0;
-
-    width: 9px;
-    height: 9px;
-
-    background: var(--bg-deep);
-
-    clip-path:
-        polygon(
-            100% 0,
-            100% 100%,
-            0 0
-        );
-}
-
-/* hover */
 
 .btn:hover {
     color: #1a1206 !important;
-
     transform: translateY(-2px);
     filter: brightness(1.07);
-
-    box-shadow:
-        0 8px 25px rgba(232,185,75,.25);
+    box-shadow: 0 8px 25px rgba(232,185,75,.25);
 }
-
-/* click */
 
 .btn:active {
     transform: translateY(0) !important;
 }
 
 /* =========================================================
-   RESULTADO
-   ========================================================= */
-
-#resultado {
-    margin-top: 35px;
-    color: var(--ink);
-}
-
-/* =========================================================
-   RESPONSIVIDADE — TABLET
-   ========================================================= */
-
-@media (max-width: 768px) {
-
-    main.container {
-        padding-left: 18px !important;
-        padding-right: 18px !important;
-    }
-
-    .card-body {
-        padding: 25px;
-    }
-
-    h1 {
-        font-size: 2.4rem;
-    }
-
-    main > .text-center:first-child .lead {
-        font-size: .95rem;
-    }
-
-    #q9 .form-check-label {
-        font-size: .86rem;
-    }
-}
-
-/* =========================================================
-   RESPONSIVIDADE — CELULAR
-   ========================================================= */
-
-@media (max-width: 576px) {
-
-    main.container {
-        padding-top: 25px !important;
-        padding-bottom: 40px !important;
-        padding-left: 13px !important;
-        padding-right: 13px !important;
-    }
-
-    main > .text-center:first-child {
-        padding-top: 15px;
-        padding-bottom: 25px;
-    }
-
-    main > .text-center:first-child::before {
-        font-size: .6rem;
-        letter-spacing: .12em;
-    }
-
-    h1 {
-        font-size: 2rem;
-        max-width: 100%;
-    }
-
-    main > .text-center:first-child .lead {
-        font-size: .9rem;
-        line-height: 1.6;
-    }
-
-    .card-body {
-        padding: 20px 17px;
-    }
-
-    .card-title {
-        font-size: 1.25rem;
-    }
-
-    /* No celular todas as alternativas ficam
-       uma embaixo da outra */
-
-    #personalidade .row > [class*="col-"] {
-        width: 100%;
-    }
-
-    .form-check {
-        min-height: 64px !important;
-    }
-
-    .form-check-label {
-        min-height: 64px !important;
-        padding-right: 12px;
-        font-size: .88rem;
-    }
-
-    .form-check-input {
-        margin-left: 14px !important;
-        margin-right: 11px !important;
-    }
-
-    #personalidade > .card-body > div[id^="q"] {
-        padding-top: 20px;
-        padding-bottom: 22px;
-    }
-
-    #personalidade > .card-body > div[id^="q"] > .form-label {
-        font-size: .92rem;
-    }
-
-    .btn {
-        width: 100%;
-        font-size: .9rem !important;
-    }
-}
-
-/* =========================================================
-   NAVEGAÇÃO DO QUIZ — BOTÕES EM FORMATO DE SETA
+   NAVEGAÇÃO DO QUIZ (SETAS)
    ========================================================= */
 
 .quiz-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     margin-top: 35px;
     width: 100%;
 }
 
-/* =========================================================
-   BASE DOS BOTÕES
-   ========================================================= */
-
 .quiz-arrow {
     position: relative;
-
     width: 85px;
     height: 48px;
-
     border: 1px solid var(--panel-line);
     background: var(--panel-dark);
     color: var(--gold);
-
     font-size: 25px;
     font-weight: 700;
-    line-height: 1;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        filter 0.2s ease;
-
-    box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
-/* =========================================================
-   SETA PARA A DIREITA
-   ========================================================= */
-
 .quiz-next {
-    clip-path:
-        polygon(
-            0 0,
-            78% 0,
-            100% 50%,
-            78% 100%,
-            0 100%,
-            18% 50%
-        );
-
+    clip-path: polygon(0 0, 78% 0, 100% 50%, 78% 100%, 0 100%, 18% 50%);
     padding-left: 8px;
 }
 
-/* =========================================================
-   SETA PARA A ESQUERDA
-   ========================================================= */
-
 .quiz-back {
-    clip-path:
-        polygon(
-            22% 0,
-            100% 0,
-            82% 50%,
-            100% 100%,
-            22% 100%,
-            0 50%
-        );
-
+    clip-path: polygon(22% 0, 100% 0, 82% 50%, 100% 100%, 22% 100%, 0 50%);
     padding-right: 8px;
 }
-
-/* =========================================================
-   EFEITO AO PASSAR O MOUSE
-   ========================================================= */
 
 .quiz-arrow:not(:disabled):hover {
     background: #1d2640;
     color: var(--gold-light);
     border-color: var(--gold);
-
-    filter: brightness(1.15);
     transform: translateY(-3px);
 }
-
-/* =========================================================
-   EFEITO AO CLICAR
-   ========================================================= */
-
-.quiz-arrow:not(:disabled):active {
-    transform: translateY(0);
-    filter: brightness(0.95);
-}
-
-/* =========================================================
-   BOTÃO DESABILITADO
-   ========================================================= */
 
 .quiz-arrow:disabled {
     opacity: 0.25;
@@ -953,93 +677,47 @@ main > .text-center:first-child .lead {
 }
 
 /* =========================================================
-   BRILHO DA SETA ATIVA
+   RESULTADO RPG — 2 COLUNAS E COMPONENTES
    ========================================================= */
 
-.quiz-arrow:not(:disabled) {
-    text-shadow:
-        0 0 5px rgba(232, 185, 75, 0.35);
+#resultado {
+    margin-top: 35px;
+    color: var(--ink);
 }
-
-/* =========================================================
-   BOTÃO RESULTADO
-   ========================================================= */
-
-.btn-resultado {
-    width: 100%;
-    max-width: 380px;
-
-    min-height: 64px;
-
-    padding: 16px 30px;
-
-    font-size: 1.2rem;
-    font-weight: 700;
-
-    border-radius: 14px;
-    cursor: pointer;
-}
-
-/* =========================================================
-   RESULTADO PIXELU
-   ========================================================= */
 
 .resultado-container {
     width: 100%;
-    max-width: 1100px;
-
+    max-width: 1000px;
     margin: 0 auto;
     padding: 10px 0 50px;
-
     display: flex;
     gap: 25px;
     align-items: flex-start;
 }
 
-/* =========================================================
-   COLUNAS DO RESULTADO
-   ========================================================= */
-
 .resultado-coluna-esquerda {
     flex: 0.8 1 0;
-    min-width: 0;
-
+    min-width: 280px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 15px;
 }
 
 .resultado-coluna-direita {
     flex: 1.2 1 0;
-    min-width: 0;
-
+    min-width: 320px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
 }
 
-/* =========================================================
-   CARD DO AVATAR
-   ========================================================= */
-
+/* Card do Avatar */
 .avatar-card {
     background: #111827;
-
-    border: 2px solid #374151;
-    border-radius: 18px;
-
+    border: 1px solid #374151;
+    border-radius: 12px;
     padding: 20px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-
-    min-height: 260px;
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.25);
+    text-align: center;
 }
 
 .avatar-resultado {
@@ -1050,59 +728,32 @@ main > .text-center:first-child .lead {
 
 .avatar-resultado img {
     max-width: 100%;
-    max-height: 420px;
+    max-height: 380px;
     object-fit: contain;
-    border-radius: 10px;
+    border-radius: 8px;
 }
+
 .avatar-nome {
-    margin: 12px 0 0;
-
+    margin-top: 15px;
     color: var(--ink);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    text-align: center;
-    letter-spacing: .02em;
 }
 
-.icone-classe img {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-}
-
-.classe-principal .icone img {
-    width: 64px;
-    height: 64px;
-    object-fit: contain;
-}
-/* =========================================================
-   BOTÃO BAIXAR AVATAR
-   ========================================================= */
-
+/* Botão Baixar Avatar */
 .btn-baixar-avatar {
     width: 100%;
     min-height: 50px;
-
     padding: 13px 26px;
-
     color: #1a1206;
     font-size: .95rem;
     font-weight: 700;
-
-    background:
-        linear-gradient(135deg, var(--gold-light), var(--gold));
-
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
     border: 1px solid var(--gold);
     border-radius: 4px;
-
     cursor: pointer;
-
     box-shadow: 0 5px 18px rgba(0,0,0,.2);
-
-    transition:
-        transform .15s ease,
-        box-shadow .15s ease,
-        filter .15s ease;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
 }
 
 .btn-baixar-avatar:hover {
@@ -1111,295 +762,155 @@ main > .text-center:first-child .lead {
     box-shadow: 0 8px 25px rgba(232,185,75,.25);
 }
 
-.btn-baixar-avatar:active {
-    transform: translateY(0);
-}
-
-.btn-baixar-avatar:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-    filter: grayscale(.4);
-}
-
-/* =========================================================
-   CLASSE PRINCIPAL
-   ========================================================= */
-
+/* Card da Classe Principal */
 .classe-principal {
     background: #111827;
-
-    border: 2px solid #374151;
-    border-radius: 18px;
-
-    padding: 35px 30px;
-
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 25px;
     text-align: center;
-    margin-bottom: 0;
+}
 
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.25);
+.classe-principal .icone img,
+.icone-classe img {
+    width: 48px !important;
+    height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    object-fit: contain;
+    display: inline-block;
 }
 
 .classe-principal .icone {
-    font-size: 65px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .classe-principal .titulo {
-    font-size: 14px;
+    font-size: 0.75rem;
     font-weight: 700;
-
-    letter-spacing: 3px;
-    text-transform: uppercase;
-
-    opacity: 0.7;
-    margin-bottom: 8px;
+    letter-spacing: 2px;
+    color: var(--ink-dim);
+    margin-bottom: 5px;
 }
 
 .classe-principal h3 {
-    font-size: 32px;
-    margin: 5px 0 10px;
+    font-size: 2rem;
     font-weight: 800;
+    margin: 5px 0;
+    color: var(--ink);
 }
 
 .classe-principal .pontos {
-    font-size: 22px;
+    font-size: 1.25rem;
     font-weight: 700;
+    color: var(--purple-light);
     margin-bottom: 15px;
 }
 
 .rpg-descricao {
-    max-width: 600px;
-    margin: 0 auto;
-
-    opacity: 0.8;
-    font-size: 16px;
+    font-size: 0.92rem;
+    color: var(--ink-dim);
+    line-height: 1.6;
+    margin: 0;
 }
 
-/* =========================================================
-   TABELA RPG
-   ========================================================= */
-
+/* Tabela RPG de Atributos */
 .tabela-rpg {
     background: #111827;
-
-    border: 2px solid #374151;
-    border-radius: 18px;
-
+    border: 1px solid #374151;
+    border-radius: 12px;
     overflow: hidden;
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.25);
 }
-
-/* =========================================================
-   TÍTULO
-   ========================================================= */
 
 .tabela-rpg-titulo {
-    padding: 20px 25px;
-
-    font-size: 18px;
-    font-weight: 800;
-
-    border-bottom: 2px solid #374151;
+    padding: 15px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
     letter-spacing: 1px;
+    border-bottom: 1px solid #374151;
+    color: var(--gold);
 }
-
-/* =========================================================
-   LINHA
-   ========================================================= */
 
 .rpg-linha {
     display: flex;
     align-items: center;
-
-    /* Espaçamento geral entre nome e XP */
-    gap: 12px;
-
-    padding: 20px 25px;
-
-    border-bottom: 1px solid #374151;
+    gap: 15px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(55, 65, 81, 0.5);
 }
 
 .rpg-linha:last-child {
     border-bottom: none;
 }
 
-/* =========================================================
-   NOME DA CLASSE
-   ========================================================= */
-
-/*
-   Aumentado de 140px para 180px para que
-   "Cibersegurança" não fique colado na barra.
-*/
-
 .rpg-classe {
-    width: 180px;
-    min-width: 180px;
-
+    width: 160px;
+    min-width: 160px;
     display: flex;
     align-items: center;
-
-    gap: 8px;
-
-    /* Espaço adicional antes da barra */
-    padding-right: 15px;
-
+    gap: 10px;
     font-weight: 700;
+    font-size: 0.9rem;
 }
-
-.icone-classe {
-    font-size: 25px;
-    flex-shrink: 0;
-}
-
-.nome-classe {
-    font-size: 15px;
-    white-space: nowrap;
-}
-
-/* =========================================================
-   XP
-   ========================================================= */
 
 .rpg-xp {
     flex: 1;
-
     display: flex;
     align-items: center;
-
-    /* Espaço entre barra e número XP */
     gap: 12px;
-
-    min-width: 0;
 }
-
-/* =========================================================
-   BARRA
-   ========================================================= */
 
 .barra-xp {
     flex: 1;
-    min-width: 0;
-
-    height: 18px;
-
-    background: #252b38;
-
-    border: 1px solid #4b5563;
+    height: 14px;
+    background: #1f2937;
     border-radius: 999px;
-
     overflow: hidden;
-
-    box-shadow:
-        inset 0 2px 5px rgba(0, 0, 0, 0.4);
 }
-
-/* =========================================================
-   PREENCHIMENTO DA BARRA
-   ========================================================= */
 
 .barra-xp-preenchida {
     height: 100%;
-    width: 0%;
-
+    background: linear-gradient(90deg, var(--purple) 0%, var(--purple-light) 100%);
     border-radius: 999px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #7d0dda,
-            #ab1ccf
-        );
-
-    transition: width 0.8s ease;
-
-    box-shadow:
-        0 0 10px rgba(124, 16, 224, 0.671);
+    transition: width 0.8s ease-in-out;
 }
-
-/* =========================================================
-   NÚMERO XP
-   ========================================================= */
 
 .rpg-pontos {
-    min-width: 50px;
-
+    min-width: 45px;
     text-align: right;
-
     font-weight: 800;
-    font-size: 15px;
-
-    white-space: nowrap;
+    font-size: 0.9rem;
+    color: var(--ink);
 }
 
 /* =========================================================
-   RESPONSIVO RPG
+   RESPONSIVIDADE GERAL
    ========================================================= */
 
-@media (max-width: 700px) {
-
-    .rpg-linha {
+@media (max-width: 768px) {
+    .resultado-container {
         flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
     }
-
-    .rpg-classe {
+    
+    .resultado-coluna-esquerda,
+    .resultado-coluna-direita {
         width: 100%;
         min-width: 0;
-
-        padding-right: 0;
-    }
-
-    .rpg-xp {
-        width: 100%;
     }
 }
-
-/* =========================================================
-   RESPONSIVO
-   ========================================================= */
 
 @media (max-width: 576px) {
-
-    .quiz-arrow {
-        width: 70px;
-        height: 42px;
-        font-size: 21px;
-    }
-
-    .quiz-nav {
-        margin-top: 28px;
-    }
-}
-
-/* =========================================================
-   TELAS MUITO PEQUENAS
-   ========================================================= */
-
-@media (max-width: 400px) {
-
-    .card-body {
-        padding: 18px 14px;
+    main.container {
+        padding-left: 13px !important;
+        padding-right: 13px !important;
     }
 
     h1 {
-        font-size: 1.75rem;
+        font-size: 2rem;
     }
 
-    .form-check-label {
-        font-size: .84rem;
-    }
-
-    .form-check-input {
-        width: 18px !important;
-        height: 18px !important;
-
-        margin-left: 12px !important;
-        margin-right: 9px !important;
+    #personalidade .row > [class*="col-"] {
+        width: 100%;
     }
 }
 
@@ -1410,36 +921,4 @@ main > .text-center:first-child .lead {
 :focus-visible {
     outline: 2px solid var(--gold) !important;
     outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-    }
-}
-
-/* =========================================================
-   RESULTADO — RESPONSIVO
-   ========================================================= */
-
-@media (max-width: 800px) {
-
-    .resultado-container {
-        flex-direction: column;
-    }
-
-    .resultado-coluna-esquerda,
-    .resultado-coluna-direita {
-        width: 100%;
-        flex: none;
-    }
-
-    .classe-principal {
-        margin-bottom: 25px;
-    }
 }
