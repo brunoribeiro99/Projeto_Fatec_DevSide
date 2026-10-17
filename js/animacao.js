@@ -353,15 +353,79 @@ document.addEventListener("DOMContentLoaded", function () {
        FINALIZAR QUIZ
        ===================================================== */
 
-    function finalizarQuiz() {
+    /* =====================================================
+   FINALIZAR QUIZ E ENVIAR DADOS
+   ===================================================== */
 
-        alert("Quiz concluído com sucesso! 🎮");
+const ENDPOINT_PLANILHA = "https://api.sheetmonkey.io/form/8cBBsYzaLpR54UuK9HKCRL";
 
-        /*
-            Aqui depois vamos colocar a lógica
-            para gerar o avatar e mostrar o resultado.
-        */
+function enviarParaPlanilha(dados) {
+    fetch(ENDPOINT_PLANILHA, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            console.log("✅ Dados enviados para o Google Sheets com sucesso!");
+        } else {
+            console.warn("⚠️ Ocorreu um problema ao enviar para a planilha.");
+        }
+    })
+    .catch(erro => {
+        console.error("❌ Erro de comunicação com o SheetMonkey:", erro);
+    });
+}
+
+function finalizarQuiz() {
+    // 1. Descobre a área vencedora (calculada no script.js)
+    const vencedor = (typeof descobrirVencedor === "function") 
+        ? descobrirVencedor() 
+        : "programacao";
+
+    // 2. Cria e exibe o avatar (função do avatar.js)
+    let avatar = null;
+    if (typeof criarAvatar === "function") {
+        avatar = criarAvatar(vencedor);
     }
+
+    // 3. Coleta os dados para a planilha da coordenação
+    const generoSel = document.querySelector('input[name="genero"]:checked')?.value || "";
+    const tomPeleSel = document.querySelector('input[name="tomPele"]:checked')?.value || "";
+
+    const dadosParaSalvar = {
+        Nome: document.getElementById("nome")?.value.trim() || "",
+        Apelido: document.getElementById("nickname")?.value.trim() || "",
+        Celular: document.getElementById("celular")?.value.trim() || "",
+        Email: document.getElementById("email")?.value.trim() || "",
+        Idade: document.getElementById("idade")?.value.trim() || "",
+        Genero: generoSel,
+        TomPele: tomPeleSel,
+        Area: vencedor,
+        LinkAvatar: avatar ? (window.location.origin + "/" + avatar.imagem) : "",
+        Data: new Date().toLocaleString("pt-BR")
+    };
+
+    // 4. Envia para o SheetMonkey
+    enviarParaPlanilha(dadosParaSalvar);
+
+    // 5. Esconde o quiz e mostra a seção de resultado
+    const secaoQuiz = document.getElementById("quiz");
+    const secaoDados = document.getElementById("perguntaDados");
+    const secaoResultado = document.getElementById("resultado");
+
+    if (secaoQuiz) secaoQuiz.style.display = "none";
+    if (secaoDados) secaoDados.style.display = "none";
+
+    if (secaoResultado) {
+        secaoResultado.removeAttribute("hidden");
+        secaoResultado.style.display = "block";
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
 
     /* =====================================================

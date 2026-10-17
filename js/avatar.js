@@ -25,18 +25,25 @@ const avatarConfig = {
 };
 
 // ========================================
+// FÓRMULA MATEMÁTICA (Hash do E-mail)
+// Garante o mesmo avatar para a mesma pessoa
+// ========================================
+function gerarNumeroPeloTexto(texto, limite) {
+    let hash = 0;
+    for (let i = 0; i < texto.length; i++) {
+        hash = texto.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return (Math.abs(hash) % limite) + 1;
+}
+
+// ========================================
 // DESCOBRIR GÊNERO
 // ========================================
 function obterGeneroSelecionado() {
-
-    const genero = document.querySelector(
-        'input[name="genero"]:checked'
-    );
+    const genero = document.querySelector('input[name="genero"]:checked');
 
     if (!genero) {
-        console.warn(
-            "⚠️ Nenhum gênero selecionado."
-        );
+        console.warn("⚠️ Nenhum gênero selecionado.");
         return null;
     }
 
@@ -48,14 +55,10 @@ function obterGeneroSelecionado() {
         return "Feminino";
     }
 
-    // Trans / Outros
-    // Sorteia entre Masculino e Feminino.
-    // O tom de pele continua sendo respeitado
-    // porque a pasta da pele é definida separadamente.
+    // Trans: sorteio fixado matematicamente pelo email ou aleatório consistente
     if (genero.value === "trans") {
-        return Math.random() < 0.5
-            ? "Masculino"
-            : "Feminino";
+        const email = document.getElementById("email")?.value.trim() || "padrao";
+        return (gerarNumeroPeloTexto(email, 2) === 1) ? "Masculino" : "Feminino";
     }
 
     return null;
@@ -65,15 +68,10 @@ function obterGeneroSelecionado() {
 // DESCOBRIR TOM DE PELE
 // ========================================
 function obterTomPeleSelecionado() {
-
-    const tomPele = document.querySelector(
-        'input[name="tomPele"]:checked'
-    );
+    const tomPele = document.querySelector('input[name="tomPele"]:checked');
 
     if (!tomPele) {
-        console.warn(
-            "⚠️ Nenhum tom de pele selecionado."
-        );
+        console.warn("⚠️ Nenhum tom de pele selecionado.");
         return null;
     }
 
@@ -84,7 +82,6 @@ function obterTomPeleSelecionado() {
 // CONVERTER TOM DE PELE PARA PASTA
 // ========================================
 function obterPastaPele(tomPele) {
-
     if (tomPele === "clara") {
         return "skin_1";
     }
@@ -97,125 +94,48 @@ function obterPastaPele(tomPele) {
 }
 
 // ========================================
-// ESCOLHER UM AVATAR
+// ESCOLHER UM AVATAR (COM HASH DO E-MAIL)
 // ========================================
 function escolherAvatar(area, genero, tomPele) {
-
     const configArea = avatarConfig.areas[area];
 
     if (!configArea) {
-        console.error(
-            "❌ Área de avatar não encontrada:",
-            area
-        );
+        console.error("❌ Área de avatar não encontrada:", area);
         return null;
     }
 
-    if (!genero) {
-        console.warn(
-            "⚠️ Não foi possível definir o gênero do avatar."
-        );
+    if (!genero || !tomPele) {
+        console.warn("⚠️ Gênero ou tom de pele ausente.");
         return null;
     }
 
-    if (!tomPele) {
-        console.warn(
-            "⚠️ Não foi possível definir o tom de pele."
-        );
-        return null;
-    }
-
-    // ========================================
-    // DESCOBRE A PASTA DA PELE
-    // ========================================
-
-    const pastaPele =
-        obterPastaPele(tomPele);
-
+    const pastaPele = obterPastaPele(tomPele);
     if (!pastaPele) {
-        console.error(
-            "❌ Tom de pele inválido:",
-            tomPele
-        );
+        console.error("❌ Tom de pele inválido:", tomPele);
         return null;
     }
 
-    // ========================================
-    // DESCOBRE QUANTOS AVATARES EXISTEM
-    // PARA O GÊNERO ESCOLHIDO
-    // ========================================
+    const generoMinusculo = genero.toLowerCase();
+    const quantidade = configArea[generoMinusculo] || 40;
 
-    const generoMinusculo =
-        genero.toLowerCase();
+    // 1. Pega o e-mail preenchido
+    const emailInput = document.getElementById("email");
+    const emailAluno = (emailInput && emailInput.value.trim().toLowerCase()) || "aluno_padrao";
 
-    const quantidade =
-        configArea[generoMinusculo];
+    // 2. Calcula o número fixo baseado no e-mail + combinação
+    const semente = emailAluno + area + genero + tomPele;
+    const numero = gerarNumeroPeloTexto(semente, quantidade);
 
-    if (!quantidade || quantidade <= 0) {
-        console.error(
-            "❌ Nenhum avatar cadastrado para:",
-            area,
-            genero
-        );
-        return null;
-    }
-
-    // ========================================
-    // SORTEIA O NÚMERO DO AVATAR
-    // ========================================
-
-    const numero =
-        Math.floor(
-            Math.random() * quantidade
-        ) + 1;
-
-    // ========================================
-    // MONTA O NOME DO ARQUIVO
-    // ========================================
-
+    // 3. Monta o nome do arquivo
     let nomeArquivo;
-
-    // ========================================
-    // CIBERSEGURANÇA
-    // ========================================
-
     if (area === "seguranca") {
-
-        nomeArquivo =
-            "seguranca (" +
-            numero +
-            ").png";
-
+        nomeArquivo = `seguranca (${numero}).png`;
     } else {
-
-        // ========================================
-        // OUTRAS ÁREAS
-        // ========================================
-
-        nomeArquivo =
-            configArea.nome +
-            " (" +
-            numero +
-            ").png";
+        nomeArquivo = `${configArea.nome} (${numero}).png`;
     }
 
-    // ========================================
-    // MONTA O CAMINHO COMPLETO
-    // ========================================
-
-    const caminho =
-        avatarConfig.caminhoBase +
-        configArea.nome +
-        "/" +
-        genero +
-        "/sprites/" +
-        pastaPele +
-        "/" +
-        nomeArquivo;
-
-    // ========================================
-    // RETORNA OS DADOS DO AVATAR
-    // ========================================
+    // 4. Caminho relativo da imagem
+    const caminho = `${avatarConfig.caminhoBase}${configArea.nome}/${genero}/sprites/${pastaPele}/${nomeArquivo}`;
 
     return {
         area: area,
@@ -231,366 +151,101 @@ function escolherAvatar(area, genero, tomPele) {
 // MOSTRAR AVATAR NO RESULTADO
 // ========================================
 function mostrarAvatarNoResultado(avatar) {
+    if (!avatar) return;
 
-    if (!avatar) {
-        return;
-    }
-
-    // Procura o card do avatar
-    const avatarCard =
-        document.getElementById("avatarCard");
-
+    const avatarCard = document.getElementById("avatarCard");
     if (!avatarCard) {
-        console.error(
-            "❌ #avatarCard não encontrado."
-        );
+        console.error("❌ #avatarCard não encontrado.");
         return;
     }
-
-    // ========================================
-    // REMOVE AVATAR ANTERIOR
-    // ========================================
 
     avatarCard.innerHTML = "";
 
-    // ========================================
-    // CRIA CONTAINER
-    // ========================================
+    const container = document.createElement("div");
+    container.className = "avatar-resultado";
 
-    const container =
-        document.createElement("div");
+    const imagem = document.createElement("img");
+    imagem.src = avatar.imagem;
+    imagem.alt = "Avatar PixelU - " + avatar.area;
 
-    container.className =
-        "avatar-resultado";
-
-    // ========================================
-    // CRIA IMAGEM
-    // ========================================
-
-    const imagem =
-        document.createElement("img");
-
-    imagem.src =
-        avatar.imagem;
-
-    imagem.alt =
-        "Avatar PixelU - " +
-        avatar.area;
-
-    // ========================================
-    // CASO O ARQUIVO NÃO EXISTA
-    // ========================================
-
-    imagem.addEventListener(
-        "error",
-        function () {
-
-            console.error(
-                "❌ Não foi possível carregar o avatar:",
-                avatar.imagem
-            );
-
-            container.remove();
-
-            desativarBotaoBaixar();
-        }
-    );
-
-    // ========================================
-    // ADICIONA IMAGEM AO CONTAINER
-    // ========================================
+    imagem.addEventListener("error", function () {
+        console.error("❌ Não foi possível carregar o avatar:", avatar.imagem);
+        container.remove();
+        desativarBotaoBaixar();
+    });
 
     container.appendChild(imagem);
-
-    // ========================================
-    // ADICIONA AVATAR AO CARD
-    // ========================================
-
     avatarCard.appendChild(container);
 
-    // ========================================
-    // MOSTRA O NOME DO USUÁRIO
-    // ========================================
+    const nicknameInput = document.getElementById("nickname");
+    const nomeUsuario = (nicknameInput && nicknameInput.value.trim()) || "Jogador";
 
-    const nomeInput =
-        document.getElementById("apelido");
+    const nomeElemento = document.createElement("p");
+    nomeElemento.className = "avatar-nome";
+    nomeElemento.textContent = nomeUsuario;
 
-    const nicknameInput =
-    document.getElementById("nickname");
-
-const nomeUsuario =
-    (nicknameInput &&
-        nicknameInput.value.trim()) ||
-    "Jogador";
-
-    const nomeElemento =
-        document.createElement("p");
-
-    nomeElemento.className =
-        "avatar-nome";
-
-    nomeElemento.textContent =
-        nomeUsuario;
-
-    avatarCard.appendChild(
-        nomeElemento
-    );
-
-    // ========================================
-    // LIGA O BOTÃO DE BAIXAR
-    // ========================================
+    avatarCard.appendChild(nomeElemento);
 
     configurarBotaoBaixar(avatar);
-
-    // ========================================
-    // DEBUG NO CONSOLE
-    // ========================================
-
-    console.log(
-        "🎮 Avatar PixelU escolhido:"
-    );
-
-    console.log(avatar);
-
-    console.log(
-        "🖼️ Caminho da imagem:",
-        avatar.imagem
-    );
 }
 
 // ========================================
 // NOME DO ARQUIVO PARA DOWNLOAD
 // ========================================
 function nomeArquivoDownload(avatar) {
+    const nicknameInput = document.getElementById("nickname");
+    let nomeUsuario = (nicknameInput && nicknameInput.value.trim()) || "Avatar";
 
-    const nomeInput =
-        document.getElementById("apelido");
-
-    let nomeUsuario =
-        (nomeInput &&
-            nomeInput.value.trim()) ||
-        "Avatar";
-
-    // Remove acentos e caracteres especiais
     nomeUsuario = nomeUsuario
         .normalize("NFD")
-        .replace(
-            /[\u0300-\u036f]/g,
-            ""
-        )
-        .replace(
-            /[^a-zA-Z0-9]+/g,
-            "-"
-        );
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-");
 
-    const nomeArea =
-        classes[avatar.area]
-            ? classes[avatar.area].nome
-                .normalize("NFD")
-                .replace(
-                    /[\u0300-\u036f]/g,
-                    ""
-                )
-                .replace(
-                    /[^a-zA-Z0-9]+/g,
-                    "-"
-                )
-            : avatar.area;
+    const nomeArea = (typeof classes !== "undefined" && classes[avatar.area])
+        ? classes[avatar.area].nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "-")
+        : avatar.area;
 
     return `${nomeUsuario}-${nomeArea}.png`;
 }
 
 // ========================================
-// CONFIGURA O BOTÃO DE BAIXAR
+// CONFIGURAÇÃO DO BOTÃO DE BAIXAR
 // ========================================
 function configurarBotaoBaixar(avatar) {
-
-    const btnBaixar =
-        document.getElementById(
-            "btnBaixarAvatar"
-        );
-
-    if (!btnBaixar) {
-        return;
-    }
+    const btnBaixar = document.getElementById("btnBaixarAvatar");
+    if (!btnBaixar) return;
 
     btnBaixar.disabled = false;
-
     btnBaixar.onclick = function () {
-
-        const link =
-            document.createElement("a");
-
-        link.href =
-            avatar.imagem;
-
-        link.download =
-            nomeArquivoDownload(avatar);
-
+        const link = document.createElement("a");
+        link.href = avatar.imagem;
+        link.download = nomeArquivoDownload(avatar);
         document.body.appendChild(link);
-
         link.click();
-
         link.remove();
     };
 }
 
-// ========================================
-// DESATIVA O BOTÃO
-// ========================================
 function desativarBotaoBaixar() {
-
-    const btnBaixar =
-        document.getElementById(
-            "btnBaixarAvatar"
-        );
-
+    const btnBaixar = document.getElementById("btnBaixarAvatar");
     if (btnBaixar) {
-
         btnBaixar.disabled = true;
-
         btnBaixar.onclick = null;
     }
 }
 
 // ========================================
-// PRINCIPAL
+// PRINCIPAL (Retorna o avatar gerado)
 // ========================================
 function criarAvatar(areaVencedora) {
+    const genero = obterGeneroSelecionado();
+    const tomPele = obterTomPeleSelecionado();
 
-    console.log(
-        "Criando avatar da classe:",
-        areaVencedora
-    );
+    if (!genero || !tomPele) return null;
 
-    // ========================================
-    // DESCOBRE O GÊNERO
-    // ========================================
+    const avatar = escolherAvatar(areaVencedora, genero, tomPele);
+    if (!avatar) return null;
 
-    const genero =
-        obterGeneroSelecionado();
-
-    if (!genero) {
-
-        console.warn(
-            "⚠️ Erro de gênero."
-        );
-
-        return;
-    }
-
-    // ========================================
-    // DESCOBRE O TOM DE PELE
-    // ========================================
-
-    const tomPele =
-        obterTomPeleSelecionado();
-
-    if (!tomPele) {
-
-        console.warn(
-            "⚠️ Erro no tom de pele."
-        );
-
-        return;
-    }
-
-    // ========================================
-    // ESCOLHE O AVATAR
-    // ========================================
-
-    const avatar =
-        escolherAvatar(
-            areaVencedora,
-            genero,
-            tomPele
-        );
-
-    if (!avatar) {
-        return;
-    }
-
-    // ========================================
-    // MOSTRA O AVATAR
-    // ========================================
-
-    mostrarAvatarNoResultado(
-        avatar
-    );
+    mostrarAvatarNoResultado(avatar);
+    return avatar; // Retorna o avatar para o animacao.js enviar o link para o Sheets
 }
-
-// ========================================
-// RESULTADO
-// ========================================
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const btnVerPontuacao =
-            document.getElementById(
-                "btnVerPontuacao"
-            );
-
-        if (!btnVerPontuacao) {
-
-            console.warn(
-                "⚠️ Botão #btnVerPontuacao não encontrado."
-            );
-
-            return;
-        }
-
-        btnVerPontuacao.addEventListener(
-            "click",
-            function () {
-
-                // Pequeno atraso para garantir
-                // que o script.js já tenha
-                // montado o resultado.
-
-                setTimeout(
-                    function () {
-
-                        // ========================================
-                        // VERIFICA SE descobrirVencedor EXISTE
-                        // ========================================
-
-                        if (
-                            typeof descobrirVencedor !==
-                            "function"
-                        ) {
-
-                            console.error(
-                                "❌ A função descobrirVencedor() não foi encontrada."
-                            );
-
-                            return;
-                        }
-
-                        // ========================================
-                        // DESCOBRE A ÁREA VENCEDORA
-                        // ========================================
-
-                        const vencedor =
-                            descobrirVencedor();
-
-                        console.log(
-                            "🏆 Área vencedora:",
-                            vencedor
-                        );
-
-                        // ========================================
-                        // CRIA O AVATAR
-                        // ========================================
-
-                        criarAvatar(
-                            vencedor
-                        );
-
-                    },
-                    50
-                );
-            }
-        );
-    }
-);
