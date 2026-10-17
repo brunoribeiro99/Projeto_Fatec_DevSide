@@ -300,12 +300,16 @@ main > .text-center:first-child .lead {
     cursor: pointer;
 }
 
+/* =====================================================
+   ÍCONES DE GÊNERO
+   ===================================================== */
+
 .icone-genero {
-    font-size: 2.2rem;
-    font-weight: bold;
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
     display: inline-block;
-    margin-bottom: 6px;
-    line-height: 1;
+    margin-bottom: 5px;
 }
 
 .btn-genero-masculino:hover,
@@ -567,7 +571,7 @@ input[type="radio"]#generoTrans:checked + .btn-genero-trans {
     background:
         linear-gradient(
             145deg,
-            rgba(124,77,255,.18),
+            rgba(75, 10, 255, 0.18),
             rgba(20,27,48,1)
         );
     border: 2px solid var(--gold);
@@ -674,6 +678,53 @@ input[type="radio"]#generoTrans:checked + .btn-genero-trans {
     opacity: 0.25;
     cursor: not-allowed;
     filter: grayscale(0.5);
+}
+
+
+.btn-resultado {
+    width: 20%;
+    padding: 14px 45px 14px 25px;
+
+    border: 2px solid #e8b94b;
+
+    background: linear-gradient(
+        100deg,
+        #1d2640,
+        #040a20
+    );
+
+    color: #ffd66b;
+
+    font-size: 1rem;
+    font-weight: bold;
+
+    cursor: pointer;
+    position: relative;
+
+    clip-path: polygon(
+        0 0,
+        88% 0,
+        100% 50%,
+        88% 100%,
+        0 100%,
+        8% 50%
+    );
+
+    transition: all 0.2s ease;
+}
+
+.btn-resultado:hover:not(:disabled) {
+    transform: translateX(3px);
+    filter: brightness(1.08);
+}
+
+.btn-resultado:active:not(:disabled) {
+    transform: translateX(1px);
+}
+
+.btn-resultado:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* =========================================================

@@ -71,28 +71,89 @@
             </div>
 
             <!-- GÊNERO / IDENTIDADE -->
-            <div class="mt-4 mb-4">
-                <label class="form-label text-center d-block mb-3">Como você se identifica?</label>
-                <div class="row g-2 justify-content-center">
-                    <div class="col-4 col-md-3">
-                        <input type="radio" class="btn-check" name="genero" id="generoMasculino" value="masculino" autocomplete="off">
-                        <label class="btn btn-genero-masculino w-100 py-3 text-center" for="generoMasculino">
-                            <span class="icone-genero">♂</span><br>Masculino
-                        </label>
-                    </div>
-                    <div class="col-4 col-md-3">
-                        <input type="radio" class="btn-check" name="genero" id="generoFeminino" value="feminino" autocomplete="off">
-                        <label class="btn btn-genero-feminino w-100 py-3 text-center" for="generoFeminino">
-                            <span class="icone-genero">♀</span><br>Feminino
-                        </label>
-                    </div>
-                    <div class="col-4 col-md-3">
-                        <input type="radio" class="btn-check" name="genero" id="generoTrans" value="trans" autocomplete="off">
-                        <label class="btn btn-genero-trans w-100 py-3 text-center" for="generoTrans">
-                            <span class="icone-genero">⚧</span><br>Trans / Outros
-                        </label>
-                    </div>
-                </div>
+       <div class="mt-4 mb-4">
+    <label class="form-label text-center d-block mb-3">
+        Como você se identifica?
+    </label>
+
+    <div class="row g-2 justify-content-center">
+
+        <div class="col-4 col-md-3">
+            <input
+                type="radio"
+                class="btn-check"
+                name="genero"
+                id="generoMasculino"
+                value="masculino"
+                autocomplete="off"
+            >
+
+            <label
+                class="btn btn-genero-masculino w-100 py-3 text-center"
+                for="generoMasculino"
+            >
+                <img
+                    src="img/icon/masculino.png"
+                    alt="Masculino"
+                    class="icone-genero"
+                >
+                <br>
+                Masculino
+            </label>
+        </div>
+
+
+        <div class="col-4 col-md-3">
+            <input
+                type="radio"
+                class="btn-check"
+                name="genero"
+                id="generoFeminino"
+                value="feminino"
+                autocomplete="off"
+            >
+
+            <label
+                class="btn btn-genero-feminino w-100 py-3 text-center"
+                for="generoFeminino"
+            >
+                <img
+                    src="img/icon/feminino.png"
+                    alt="Feminino"
+                    class="icone-genero"
+                >
+                <br>
+                Feminino
+            </label>
+        </div>
+
+
+        <div class="col-4 col-md-3">
+            <input
+                type="radio"
+                class="btn-check"
+                name="genero"
+                id="generoTrans"
+                value="trans"
+                autocomplete="off"
+            >
+
+            <label
+                class="btn btn-genero-trans w-100 py-3 text-center"
+                for="generoTrans"
+            >
+                <img
+                    src="img/icon/transgenero.png"
+                    alt="Trans"
+                    class="icone-genero"
+                >
+                <br>
+                Trans
+            </label>
+        </div>
+
+    </div>
+</div>
             </div>
 
             <!-- TOM DE PELE -->
@@ -1220,7 +1281,7 @@
 
                 <button type="button" class="btn-resultado" id="btnVerPontuacao">
 
-                    Ver minha pontuação
+                    Pontuação
 
                 </button>
 

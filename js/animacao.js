@@ -6,12 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const totalPerguntas = 10;
 
-    /*
-       0 = Dados pessoais
-       1 = Pergunta 1
-       ...
-       10 = Pergunta 10
-    */
     let etapaAtual = 0;
 
 
@@ -19,7 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
        ELEMENTOS
        ===================================================== */
 
-    const dadosPessoais = document.getElementById("perguntaDados");
+    const dadosPessoais =
+        document.getElementById("perguntaDados");
 
 
     /* =====================================================
@@ -59,21 +54,64 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
+       BORDA DE CAMPO INVÁLIDO
+       ===================================================== */
+
+    function marcarCampo(campo, valido) {
+
+        if (!campo) {
+            return;
+        }
+
+        if (valido) {
+
+            campo.style.removeProperty("border");
+            campo.style.removeProperty("box-shadow");
+
+        } else {
+
+            campo.style.setProperty(
+                "border",
+                "3px solid #ff0000",
+                "important"
+            );
+
+            campo.style.setProperty(
+                "box-shadow",
+                "0 0 8px rgba(129, 3, 3, 0.45)",
+                "important"
+            );
+        }
+    }
+
+
+    /* =====================================================
        VERIFICAR DADOS PESSOAIS
        ===================================================== */
 
     function dadosPreenchidos() {
 
-        const nome = document.getElementById("nome");
-        const nickname = document.getElementById("nickname");
-        const celular = document.getElementById("celular");
-        const email = document.getElementById("email");
-        const idade = document.getElementById("idade");
+        const nome =
+            document.getElementById("nome");
+
+        const nickname =
+            document.getElementById("nickname");
+
+        const celular =
+            document.getElementById("celular");
+
+        const email =
+            document.getElementById("email");
+
+        const idade =
+            document.getElementById("idade");
+
 
         const genero =
             document.querySelector(
                 'input[name="genero"]:checked'
             );
+
 
         const tomPele =
             document.querySelector(
@@ -81,35 +119,86 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-        if (
-            !nome ||
-            !celular ||
-            !email ||
-            !idade ||
-            !genero ||
-            !tomPele
-        ) {
-            return false;
-        }
+        /* =================================================
+           VERIFICA NOME
+           ================================================= */
 
+        const nomeValido =
+            nome &&
+            nome.value.trim().length > 8;
+
+
+        /* =================================================
+           VERIFICA NICKNAME
+           ================================================= */
+
+        const nicknameValido =
+            !nickname ||
+            nickname.value.trim().length > 0;
+
+
+        /* =================================================
+           VERIFICA CELULAR
+           ================================================= */
 
         const celularNumeros =
-            celular.value.replace(/\D/g, "");
+            celular
+                ? celular.value.replace(/\D/g, "")
+                : "";
 
+        const celularValido =
+            celular &&
+            celularNumeros.length >= 10;
+
+
+        /* =================================================
+           VERIFICA E-MAIL
+           ================================================= */
 
         const emailValido =
+            email &&
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
                 email.value.trim()
             );
 
 
+        /* =================================================
+           VERIFICA IDADE
+           ================================================= */
+
+        const idadeValida =
+            idade &&
+            idade.value.trim() !== "";
+
+
+        /* =================================================
+           VERIFICA GÊNERO
+           ================================================= */
+
+        const generoValido =
+            !!genero;
+
+
+        /* =================================================
+           VERIFICA TOM DE PELE
+           ================================================= */
+
+        const tomPeleValido =
+            !!tomPele;
+
+
+        /* =================================================
+           RETORNA SE TUDO ESTÁ CORRETO
+           ================================================= */
+
         return (
-            nome.value.trim().length >= 3 &&
-            (!nickname ||
-                nickname.value.trim().length > 0) &&
-            celularNumeros.length >= 10 &&
+            nomeValido &&
+            nicknameValido &&
+            celularValido &&
             emailValido &&
-            idade.value.trim() !== ""
+            idadeValida &&
+            generoValido &&
+            tomPeleValido
         );
     }
 
@@ -165,12 +254,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (etapaAtual === 0) {
 
             const proxima =
-                document.getElementById("btnProximaDados");
+                document.getElementById(
+                    "btnProximaDados"
+                );
 
 
             if (proxima) {
 
-                /* CORRIGIDO */
                 proxima.disabled =
                     !dadosPreenchidos();
             }
@@ -191,7 +281,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (proxima) {
 
-                /* CORRIGIDO */
                 proxima.disabled =
                     !perguntaRespondida(etapaAtual);
             }
@@ -228,7 +317,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function proximaEtapa() {
 
-        /* CORRIGIDO */
         if (!etapaRespondida()) {
             return;
         }
@@ -270,8 +358,8 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Quiz concluído com sucesso! 🎮");
 
         /*
-           Aqui depois vamos colocar a lógica
-           para gerar o avatar e mostrar o resultado.
+            Aqui depois vamos colocar a lógica
+            para gerar o avatar e mostrar o resultado.
         */
     }
 
@@ -308,7 +396,12 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
+    /* =====================================================
+       CAMPOS DE TEXTO
+       ===================================================== */
+
     if (nome) {
+
         nome.addEventListener(
             "input",
             atualizarBotoes
@@ -317,6 +410,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (nickname) {
+
         nickname.addEventListener(
             "input",
             atualizarBotoes
@@ -325,6 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (celular) {
+
         celular.addEventListener(
             "input",
             atualizarBotoes
@@ -333,6 +428,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (email) {
+
         email.addEventListener(
             "input",
             atualizarBotoes
@@ -341,12 +437,86 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (idade) {
+
         idade.addEventListener(
             "input",
             atualizarBotoes
         );
     }
 
+
+    /* =====================================================
+       TESTE DA BORDA — AO SAIR DO CAMPO
+       ===================================================== */
+
+    if (nome) {
+
+        nome.addEventListener("blur", function () {
+
+            const valido =
+                nome.value.trim().length > 8;
+
+            marcarCampo(nome, valido);
+        });
+    }
+
+
+    if (nickname) {
+
+        nickname.addEventListener("blur", function () {
+
+            const valido =
+                nickname.value.trim().length > 0;
+
+            marcarCampo(nickname, valido);
+        });
+    }
+
+
+    if (celular) {
+
+        celular.addEventListener("blur", function () {
+
+            const numeros =
+                celular.value.replace(/\D/g, "");
+
+            const valido =
+                numeros.length >= 10;
+
+            marcarCampo(celular, valido);
+        });
+    }
+
+
+    if (email) {
+
+        email.addEventListener("blur", function () {
+
+            const valido =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                    email.value.trim()
+                );
+
+            marcarCampo(email, valido);
+        });
+    }
+
+
+    if (idade) {
+
+        idade.addEventListener("blur", function () {
+
+            const valido =
+                idade.value.trim() !== "";
+
+            marcarCampo(idade, valido);
+        });
+    }
+
+
+    /* =====================================================
+       GÊNERO
+       ===================================================== */
 
     generos.forEach(genero => {
 
@@ -357,6 +527,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
+
+    /* =====================================================
+       TOM DE PELE
+       ===================================================== */
 
     tonsPele.forEach(tom => {
 

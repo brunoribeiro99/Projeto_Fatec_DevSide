@@ -48,6 +48,16 @@ function obterGeneroSelecionado() {
         return "Feminino";
     }
 
+    // Trans / Outros
+    // Sorteia entre Masculino e Feminino.
+    // O tom de pele continua sendo respeitado
+    // porque a pasta da pele é definida separadamente.
+    if (genero.value === "trans") {
+        return Math.random() < 0.5
+            ? "Masculino"
+            : "Feminino";
+    }
+
     return null;
 }
 
@@ -305,10 +315,13 @@ function mostrarAvatarNoResultado(avatar) {
     const nomeInput =
         document.getElementById("apelido");
 
-    const nomeUsuario =
-        (nomeInput &&
-            nomeInput.value.trim()) ||
-        "Jogador";
+    const nicknameInput =
+    document.getElementById("nickname");
+
+const nomeUsuario =
+    (nicknameInput &&
+        nicknameInput.value.trim()) ||
+    "Jogador";
 
     const nomeElemento =
         document.createElement("p");
@@ -359,17 +372,16 @@ function nomeArquivoDownload(avatar) {
         "Avatar";
 
     // Remove acentos e caracteres especiais
-    nomeUsuario =
-        nomeUsuario
-            .normalize("NFD")
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            )
-            .replace(
-                /[^a-zA-Z0-9]+/g,
-                "-"
-            );
+    nomeUsuario = nomeUsuario
+        .normalize("NFD")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+        .replace(
+            /[^a-zA-Z0-9]+/g,
+            "-"
+        );
 
     const nomeArea =
         classes[avatar.area]
